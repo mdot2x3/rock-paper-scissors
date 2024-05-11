@@ -3,15 +3,14 @@
 
 // function to randomly select a RPS choice for the computer
 function getComputerChoice() {
-    // getting a random integer between two values, inclusive
-    // return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
-    let result = Math.floor(Math.random() * (9) + 1);
+    // getting a random integer (0, 1, or 2)
+    let result = Math.floor(Math.random() * 3 );
     // debug clg
-    //console.log(result);
+    console.log(result);
     // determine return value based on randomized result
-    if (result >= 1 && result <=3) {
+    if (result === 0) {
         return "rock";
-    } else if (result >= 4 && result <=6) {
+    } else if (result === 1) {
         return "paper";
     } else {
         return "scissors";
