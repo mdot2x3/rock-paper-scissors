@@ -1,0 +1,29 @@
+Plan:
+Interface? Console
+Inputs? Prompt query to user
+Output?
+	1. The computer's generated value vs the user's input value
+	2. The result of the current round, the result total for all rounds in the game session
+
+Pseudocode:
+
+Function getComputerChoice returns random sting value from (“rock”, “paper” or “scissors”)
+
+Function getHumanChoice returns valid string value from user prompt (“rock”, “paper” or “scissors”)
+
+Variables humanScore and computerScore are initialed to 0
+
+Function playRound takes parameters (humanChoice and computerChoice)
+
+getHumanChoice and getComputerChoice are assigned to variables humanSelection and computerSelection
+	humanSelection set to case insensitive
+
+Run playRound with humanSelection and computerSelection as arguments
+
+Output round results as string to console
+
+Increment humanScore and computerScore based on round winner
+
+Function playGame calls playRound five times
+
+playGame outputs the result of the game after five rounds complete
