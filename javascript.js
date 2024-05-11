@@ -1,4 +1,10 @@
-console.log("Hello, World!");
+//console.log("Hello, World!");
+
+
+// initialize score trackers for user and computer
+let humanScore = 0;
+let computerScore = 0;
+
 
 // function to randomly select a RPS choice for the computer
 function getComputerChoice() {
@@ -6,18 +12,19 @@ function getComputerChoice() {
     // return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
     let result = Math.floor(Math.random() * (9) + 1);
     // debug clg
-    console.log(result);
+    //console.log(result);
     // determine return value based on randomized result
     if (result >= 1 && result <=3) {
-        return "Rock";
+        return "rock";
     } else if (result >= 4 && result <=6) {
-        return "Paper";
+        return "paper";
     } else {
-        return "Scissors";
+        return "scissors";
     }
 }
 // debug clg
-console.log(getComputerChoice());
+//console.log(getComputerChoice());
+
 
 // function to prompt user to make a RPS choice
 function getHumanChoice() {
@@ -38,4 +45,45 @@ function getHumanChoice() {
     }
 }
 // debug clg
-console.log(getHumanChoice());
+//console.log(getHumanChoice());
+
+
+// play one round of the game
+// function that takes human and computer selections as parameters
+function playRound(humanChoice, computerChoice) {
+    console.log("You chose "+ humanChoice + ".");
+    console.log("Your opponent chose "+ computerChoice + ".");
+
+    if (humanChoice === "rock" && computerChoice === "paper") {
+        console.log("You lose! Paper beats Rock.");
+        computerScore ++;
+    } else if (humanChoice === "rock" && computerChoice === "scissors") {
+        console.log("You win! Rock beats Scissors.");
+        humanScore ++;
+    } else if (humanChoice === "paper" && computerChoice === "rock") {
+        console.log("You win! Paper beats Rock.");
+        humanScore ++;
+    } else if (humanChoice === "paper" && computerChoice === "scissors") {
+        console.log("You lose! Scissors beats Paper.");
+        computerScore ++;
+    } else if (humanChoice === "scissors" && computerChoice === "rock") {
+        console.log("You lose! Rock beats Scissors.");
+        computerScore ++;
+    } else if (humanChoice === "scissors" && computerChoice === "paper") {
+        console.log("You win! Scissors beats Paper.");
+        humanScore ++;
+    } else {
+        console.log("This round is a tie! Both opponents receive 1 point.")
+        humanScore ++;
+        computerScore ++;
+    }
+}
+// set variables to human and computer choices that will feed into playRound function parameters
+const humanSelection = getHumanChoice();
+const computerSelection = getComputerChoice();
+
+// call playRound
+playRound(humanSelection, computerSelection);
+
+// debug clg
+console.log("H:" + humanScore + ", " + "C: " + computerScore);
