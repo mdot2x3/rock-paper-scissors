@@ -6,7 +6,7 @@ function getComputerChoice() {
     // getting a random integer (0, 1, or 2)
     let result = Math.floor(Math.random() * 3 );
     // debug clg
-    console.log(result);
+    //console.log(result);
     // determine return value based on randomized result
     if (result === 0) {
         return "rock";
@@ -20,91 +20,68 @@ function getComputerChoice() {
 //console.log(getComputerChoice());
 
 
-// function to prompt user to make a RPS choice
-function getHumanChoice() {
-    // create while loop to run until valid input is received by user
-    let stillGoing = true;
-    while (stillGoing) {
-        let userInput = prompt("Please enter your choice (Rock, Paper, or Scissors)?");
-        // set user input to lowercase for conditional check
-        let userInputLower = userInput.toLowerCase();
-        // check if input is valid
-        if (userInputLower === "rock" || userInputLower === "paper" || userInputLower === "scissors") {
-            return userInputLower
-            stillGoing = false;
-        // if not valid, prompt user to try again
-        } else {
-            console.log("That isn't a valid choice. Please try again.");
-        }
-    }
-}
-// debug clg
-//console.log(getHumanChoice());
+// initialize score trackers for user and computer
+let humanScore = 0;
+let computerScore = 0;
 
-
-// play full game, 5 rounds
-// function that calls playRound 5 times, and then declares a winner
-function playGame() {
-
-    // initialize score trackers for user and computer
-    let humanScore = 0;
-    let computerScore = 0;
-
-    // loop through the playRound function 5 times
-    for (i = 0; i < 5; i++) {
-        // play one round of the game
-        // function that takes human and computer selections as parameters
-        function playRound(humanChoice, computerChoice) {
-            console.log("You chose "+ humanChoice + ".");
-            console.log("Your opponent chose "+ computerChoice + ".");
-
-            if (humanChoice === "rock" && computerChoice === "paper") {
-                console.log("You lose! Paper beats Rock.");
-                computerScore ++;
-            } else if (humanChoice === "rock" && computerChoice === "scissors") {
-                console.log("You win! Rock beats Scissors.");
-                humanScore ++;
-            } else if (humanChoice === "paper" && computerChoice === "rock") {
-                console.log("You win! Paper beats Rock.");
-                humanScore ++;
-            } else if (humanChoice === "paper" && computerChoice === "scissors") {
-                console.log("You lose! Scissors beats Paper.");
-                computerScore ++;
-            } else if (humanChoice === "scissors" && computerChoice === "rock") {
-                console.log("You lose! Rock beats Scissors.");
-                computerScore ++;
-            } else if (humanChoice === "scissors" && computerChoice === "paper") {
-                console.log("You win! Scissors beats Paper.");
-                humanScore ++;
-            } else {
-                console.log("This round is a tie! Both opponents receive 1 point.")
-                humanScore ++;
-                computerScore ++;
-            }
-        }
-        // set variables to human and computer choices that will feed into playRound function parameters
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
-
-        // call playRound
-        playRound(humanSelection, computerSelection);
-
-        // debug clg
-        //console.log("H:" + humanScore + ", " + "C: " + computerScore);
-    }
-
-    // output scores after each round
-    console.log("Your score:" + humanScore + ", " + "Computer score: " + computerScore);
+// playRound function plays one round
+// function that takes human and computer selections as parameters
+function playRound(humanChoice, computerChoice) {
     
-    // compare final total scores and declare a winner
-    if (humanScore > computerScore) {
-        console.log("Congratulations! You win!");
-    } else if (humanScore < computerScore) {
-        console.log("Darn, you lose! Better luck next time.");
+    // set up query selectors to target html <p> for textContent changes
+    const player = document.querySelector('#player');
+    const comp = document.querySelector('#computer');
+    const roundResult = document.querySelector('#roundResult');
+    const runningScore = document.querySelector('#runningScore');
+
+    player.textContent = "You chose "+ humanChoice + ".";
+    comp.textContent = "Your opponent chose "+ computerChoice + ".";
+
+    if (humanChoice === "rock" && computerChoice === "paper") {
+        roundResult.textContent = "You lose! Paper beats Rock.";
+        computerScore ++;
+    } else if (humanChoice === "rock" && computerChoice === "scissors") {
+        roundResult.textContent = "You win! Rock beats Scissors.";
+        humanScore ++;
+    } else if (humanChoice === "paper" && computerChoice === "rock") {
+        roundResult.textContent = "You win! Paper beats Rock.";
+        humanScore ++;
+    } else if (humanChoice === "paper" && computerChoice === "scissors") {
+        roundResult.textContent = "You lose! Scissors beats Paper.";
+        computerScore ++;
+    } else if (humanChoice === "scissors" && computerChoice === "rock") {
+        roundResult.textContent = "You lose! Rock beats Scissors.";
+        computerScore ++;
+    } else if (humanChoice === "scissors" && computerChoice === "paper") {
+        roundResult.textContent = "You win! Scissors beats Paper.";
+        humanScore ++;
     } else {
-        console.log("Whoa! We have a tie. How about that...!");
+        roundResult.textContent = "This round is a tie! Both opponents receive 1 point."
+        humanScore ++;
+        computerScore ++;
+    }
+    // output running total after each round
+    runningScore.textContent = "Your score: " + humanScore + ", " + "Computer score: " + computerScore;
+
+    // first to five, send alert to declare a winner or a tie, and refresh page to reset game
+    if (humanScore >= 5 && computerScore < 5) {
+        setTimeout(() => alert("Congratulations! You win!"), 1);
+        window.location.reload();
+    } else if (humanScore < 5 && computerScore >= 5) {
+        setTimeout(() => alert("Darn, you lose! Better luck next time."), 1);
+        window.location.reload();
+    } else if (humanScore >= 5 && computerScore >= 5 && humanScore == computerScore) {
+        setTimeout(() => alert("Whoa! We have a tie. How about that...!"), 1);
+        window.location.reload();
     }
 }
 
-// call function to launch game
-playGame();
+// selector and event handler to determine user choice and execute 1 round
+const buttons = document.querySelector('.container');
+
+buttons.addEventListener('click', (e) => {
+    const selection = e.target.getAttribute('data-type');
+    //console.log(selection);
+    playRound(selection, getComputerChoice());
+});
+
